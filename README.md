@@ -9,15 +9,65 @@ Pick a strategy, build a Python agent, run local games, read the results in plai
 From the project folder:
 
 ```bash
-python -m pip install -e . && kab start
+./scripts/start.sh
 ```
 
-That one line installs the CLI, creates an Orbit Wars workspace if needed, builds the current bot, validates it, and opens the terminal cockpit.
+That one command creates a local `.venv`, installs the CLI inside it, creates an Orbit Wars workspace if needed, builds the current bot, validates it, and opens the terminal cockpit.
 
-On Windows, `py` is often the right launcher:
+### What The Startup Script Does
+
+`./scripts/start.sh` is the safe default for Linux, WSL, and macOS:
+
+1. Finds `python3`.
+2. Creates a project-local virtual environment at `.venv`.
+3. Activates that virtual environment.
+4. Upgrades `pip` inside `.venv`.
+5. Installs Agent Buffet in editable mode with `python -m pip install -e .`.
+6. Runs `kab start`.
+
+This is the correct approach on Ubuntu, Debian, and WSL because those systems often block system-wide `pip install` with the `externally-managed-environment` error. The virtual environment keeps this project's Python packages separate from your operating system Python.
+
+### Is This A Sandbox?
+
+No. A Python virtual environment is not a security sandbox.
+
+What `.venv` does:
+
+- isolates Python packages for this project
+- avoids breaking system Python
+- gives the CLI its own `kab` command
+- makes install/uninstall cleaner
+
+What `.venv` does not do:
+
+- it does not block filesystem access
+- it does not block network access
+- it does not safely contain untrusted code
+- it does not protect secrets by itself
+
+Agent Buffet still protects the risky actions at the CLI level: Kaggle tokens are prompted without echo, credential files are not written by the tool, and Kaggle submit requires `--confirm`.
+
+If your Linux/WSL machine is missing venv support:
+
+```bash
+sudo apt update && sudo apt install -y python3-venv
+./scripts/start.sh
+```
+
+Manual Linux/macOS version:
+
+```bash
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install -U pip
+python -m pip install -e .
+kab start
+```
+
+On Windows PowerShell:
 
 ```powershell
-py -m pip install -e .; kab start
+.\scripts\start.ps1
 ```
 
 ## What It Looks Like
@@ -201,6 +251,8 @@ The source code mentions `KAGGLE_API_TOKEN` as an environment variable name only
 Python 3.10+ is recommended.
 
 ```bash
+python3 -m venv .venv
+. .venv/bin/activate
 python -m pip install -e .
 kab --help
 ```
