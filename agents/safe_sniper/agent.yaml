@@ -1,0 +1,51 @@
+competition: orbit-wars
+name: safe_sniper
+base_template: advanced_modular
+strategy:
+  expansion: medium
+  aggression: low
+  defense: medium
+  comet_usage: 'off'
+  endgame_swarm: false
+target_scoring:
+  distance_weight: 120.0
+  production_weight: 10.0
+  enemy_bonus: 4.0
+  neutral_bonus: 4.0
+  ship_cost_weight: 0.7
+  eta_penalty: 3.0
+  future_production_weight: 0.15
+physics:
+  sun_avoidance: true
+  sun_radius: 13.0
+  moving_planet_prediction: true
+  comet_prediction: false
+  continuous_collision_check: true
+  max_prediction_ticks: 45
+attacks:
+  min_attack_ships: 5
+  send_fraction: 0.45
+  cooperative_attacks: false
+  coop_planet_cap: 8
+  avoid_duplicate_targeting: true
+  avoid_oversending: true
+  reserve_ships: 6
+  max_attacks_per_turn: 12
+defense:
+  detect_incoming_fleets: true
+  reinforce_under_attack: true
+  reserve_home_planet_ships: 10
+  abandon_doomed_planets: false
+  threat_horizon: 45
+testing:
+  turns: 220
+  seeds: 50
+  opponents:
+  - random
+  - starter_sniper
+  - safe_sniper
+sources:
+- kind: preset
+  detail: safe_sniper
+- kind: generated
+  detail: kab new --preset safe_sniper

@@ -1,0 +1,51 @@
+competition: orbit-wars
+name: fast_v1
+base_template: advanced_modular
+strategy:
+  expansion: high
+  aggression: low
+  defense: low
+  comet_usage: 'off'
+  endgame_swarm: true
+target_scoring:
+  distance_weight: 85.0
+  production_weight: 18.0
+  enemy_bonus: 2.0
+  neutral_bonus: 12.0
+  ship_cost_weight: 0.7
+  eta_penalty: 1.5
+  future_production_weight: 0.15
+physics:
+  sun_avoidance: true
+  sun_radius: 13.0
+  moving_planet_prediction: true
+  comet_prediction: false
+  continuous_collision_check: true
+  max_prediction_ticks: 60
+attacks:
+  min_attack_ships: 5
+  send_fraction: 0.62
+  cooperative_attacks: true
+  coop_planet_cap: 8
+  avoid_duplicate_targeting: true
+  avoid_oversending: true
+  reserve_ships: 3
+  max_attacks_per_turn: 12
+defense:
+  detect_incoming_fleets: true
+  reinforce_under_attack: true
+  reserve_home_planet_ships: 10
+  abandon_doomed_planets: false
+  threat_horizon: 45
+testing:
+  turns: 220
+  seeds: 50
+  opponents:
+  - random
+  - starter_sniper
+  - safe_sniper
+sources:
+- kind: preset
+  detail: fast_expansion
+- kind: generated
+  detail: kab new --preset fast_expansion

@@ -1,0 +1,51 @@
+competition: orbit-wars
+name: defensive_turtle
+base_template: advanced_modular
+strategy:
+  expansion: low
+  aggression: low
+  defense: high
+  comet_usage: 'off'
+  endgame_swarm: true
+target_scoring:
+  distance_weight: 135.0
+  production_weight: 12.0
+  enemy_bonus: 3.0
+  neutral_bonus: 4.0
+  ship_cost_weight: 0.7
+  eta_penalty: 2.0
+  future_production_weight: 0.15
+physics:
+  sun_avoidance: true
+  sun_radius: 13.0
+  moving_planet_prediction: true
+  comet_prediction: false
+  continuous_collision_check: true
+  max_prediction_ticks: 60
+attacks:
+  min_attack_ships: 5
+  send_fraction: 0.35
+  cooperative_attacks: true
+  coop_planet_cap: 8
+  avoid_duplicate_targeting: true
+  avoid_oversending: true
+  reserve_ships: 12
+  max_attacks_per_turn: 6
+defense:
+  detect_incoming_fleets: true
+  reinforce_under_attack: true
+  reserve_home_planet_ships: 18
+  abandon_doomed_planets: false
+  threat_horizon: 70
+testing:
+  turns: 220
+  seeds: 50
+  opponents:
+  - random
+  - starter_sniper
+  - safe_sniper
+sources:
+- kind: preset
+  detail: defensive_turtle
+- kind: buffet
+  detail: preset=defensive_turtle

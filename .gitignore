@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local Agent Buffet state
+.agent-buffet/
+runs/
+cache/
+reports/
+
+# Generated submission bundles
+*.zip
+*.tar
+*.tar.gz
+
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+kaggle.json
+access_token
+access_token.txt
+.kaggle/
+secrets/
+.secrets*
+*.secret
+*.token
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

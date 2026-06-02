@@ -1,0 +1,68 @@
+"""Generated Orbit Wars starter sniper agent.
+
+This file is self-contained for Kaggle submission. It intentionally uses simple
+nearest-target logic and is best treated as a baseline.
+"""
+
+import math
+
+
+MIN_ATTACK_SHIPS = {{ config.attacks.min_attack_ships }}
+RESERVE_SHIPS = {{ config.attacks.reserve_ships }}
+SEND_FRACTION = {{ config.attacks.send_fraction }}
+
+
+def _get(obj, key, default=None):
+    if isinstance(obj, dict):
+        return obj.get(key, default)
+    return getattr(obj, key, default)
+
+
+def _planets(obs):
+    raw = _get(obs, "planets", []) or []
+    if isinstance(raw, dict):
+        raw = list(raw.values())
+    result = []
+    for index, planet in enumerate(raw):
+        result.append({
+            "id": int(_get(planet, "id", _get(planet, "planet_id", index))),
+            "x": float(_get(planet, "x", 0.0)),
+            "y": float(_get(planet, "y", 0.0)),
+            "owner": int(_get(planet, "owner", _get(planet, "player", 0)) or 0),
+            "ships": int(_get(planet, "ships", _get(planet, "ship_count", 0)) or 0),
+            "production": int(_get(planet, "production", 1) or 1),
+        })
+    return result
+
+
+def _player(obs):
+    return int(_get(obs, "player", _get(obs, "player_id", 1)) or 1)
+
+
+def _distance(a, b):
+    return math.hypot(b["x"] - a["x"], b["y"] - a["y"])
+
+
+def _angle(a, b):
+    return math.atan2(b["y"] - a["y"], b["x"] - a["x"])
+
+
+def agent(obs):
+    player = _player(obs)
+    planets = _planets(obs)
+    owned = [p for p in planets if p["owner"] == player and p["ships"] > RESERVE_SHIPS + MIN_ATTACK_SHIPS]
+    targets = [p for p in planets if p["owner"] != player]
+    moves = []
+    targeted = set()
+    for source in sorted(owned, key=lambda p: -p["ships"]):
+        candidates = [t for t in targets if t["id"] not in targeted]
+        if not candidates:
+            break
+        target = min(candidates, key=lambda t: _distance(source, t) + t["ships"] * 2 - t["production"] * 6)
+        available = max(0, source["ships"] - RESERVE_SHIPS)
+        ships = min(available, max(MIN_ATTACK_SHIPS, int(target["ships"] + 2)))
+        ships = min(ships, int(available * SEND_FRACTION))
+        if ships >= MIN_ATTACK_SHIPS:
+            moves.append([source["id"], _angle(source, target), int(ships)])
+            targeted.add(target["id"])
+    return moves

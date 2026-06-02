@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-buffet"
+version = "0.1.0"
+description = "No-code/low-code agent factory CLI for Kaggle-style game competitions."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "jinja2>=3.1",
+  "pydantic>=2.0",
+  "pyyaml>=6.0",
+  "questionary>=2.0",
+  "rich>=13.0",
+  "typer>=0.12",
+]
+
+[project.optional-dependencies]
+kaggle = ["kagglehub>=0.4", "kaggle>=1.7"]
+official = ["kaggle-environments>=1.28.0"]
+
+[project.scripts]
+kab = "agent_buffet.cli:app"
+agent-buffet = "agent_buffet.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+agent_buffet = ["orbit_wars/templates/*.j2", "storage/*.sql"]

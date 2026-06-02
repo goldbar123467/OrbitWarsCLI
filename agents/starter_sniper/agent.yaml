@@ -1,0 +1,51 @@
+competition: orbit-wars
+name: starter_sniper
+base_template: simple_sniper
+strategy:
+  expansion: medium
+  aggression: low
+  defense: low
+  comet_usage: 'off'
+  endgame_swarm: false
+target_scoring:
+  distance_weight: 100.0
+  production_weight: 15.0
+  enemy_bonus: 10.0
+  neutral_bonus: 4.0
+  ship_cost_weight: 0.7
+  eta_penalty: 2.0
+  future_production_weight: 0.15
+physics:
+  sun_avoidance: false
+  sun_radius: 13.0
+  moving_planet_prediction: false
+  comet_prediction: false
+  continuous_collision_check: true
+  max_prediction_ticks: 0
+attacks:
+  min_attack_ships: 5
+  send_fraction: 0.55
+  cooperative_attacks: false
+  coop_planet_cap: 8
+  avoid_duplicate_targeting: false
+  avoid_oversending: true
+  reserve_ships: 2
+  max_attacks_per_turn: 12
+defense:
+  detect_incoming_fleets: false
+  reinforce_under_attack: false
+  reserve_home_planet_ships: 10
+  abandon_doomed_planets: false
+  threat_horizon: 45
+testing:
+  turns: 220
+  seeds: 50
+  opponents:
+  - random
+  - starter_sniper
+  - safe_sniper
+sources:
+- kind: preset
+  detail: starter_sniper
+- kind: generated
+  detail: kab new --preset starter_sniper
